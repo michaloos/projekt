@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_04_161952) do
+ActiveRecord::Schema.define(version: 2020_06_13_142524) do
 
   create_table "categories", force: :cascade do |t|
     t.string "name"
@@ -53,6 +53,7 @@ ActiveRecord::Schema.define(version: 2020_06_04_161952) do
     t.string "image_content_type"
     t.integer "image_file_size"
     t.datetime "image_updated_at"
+    t.string "password_digest"
     t.index ["location_id"], name: "index_posts_on_location_id"
     t.index ["user_blog_id"], name: "index_posts_on_user_blog_id"
   end
@@ -74,6 +75,7 @@ ActiveRecord::Schema.define(version: 2020_06_04_161952) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "admin"
+    t.string "name"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

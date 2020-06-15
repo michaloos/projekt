@@ -1,34 +1,36 @@
-<p id="notice"><%= notice %></p>
 
 <div class="panel panel-default">
   <div class="panel-heading">Blogs:</div>
+  <div class="panel-body">
 
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>User</th>
-        <th>Blogs name</th>
-        <th colspan="3"></th>
-      </tr>
-    </thead>
-
-    <tbody>
       <% @user_blogs.each do |user_blog| %>
-        <tr>
-          <td><%= user_blog.user_id %></td>
-          <td><%= user_blog.name %></td>
-          <td><%= link_to 'Show', user_blog %></td>
-          <% if user_blog.user == current_user %>
 
-            <td><%= link_to 'Edit', edit_user_blog_path(user_blog) %></td>
-            <td><%= link_to 'Destroy', user_blog, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      <div class="panel panel-default">
+        <div class="panel-body">
+
+          <div class="page-header"><h3><%= link_to user_blog.name, user_blog_path(id: user_blog.id )%>
+            <br/> <small> created by <%= user_blog.user.name %></small></h3></div>
+
+
+          <% if user_blog.user == current_user %>
+            <div class="btn-group" role="group" aria-label="...">
+             <%= link_to 'Edit', edit_user_blog_path(user_blog),  class: 'btn btn-primary' %>
+              <%= link_to 'Destroy', user_blog, method: :delete, data: { confirm: 'Are you sure?' },  class: 'btn btn-primary' %>
+            </div>
+
+
           <% end %>
-        </tr>
+        </div>
+      </div>
+
     <% end %>
-    </tbody>
-  </table>
+
 
 <br>
 
-
 </div>
+</div>
+
+<%= will_paginate @user_blogs %>
+
+

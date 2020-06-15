@@ -18,6 +18,11 @@
   </div>
 
   <div class="form-group">
+    <%= form.label :password %>
+    <%= form.password_field :password %>
+  </div>
+
+  <div class="form-group">
 
     <%= form.label "Category" %>
     <% Category.all.each do |cat| %>
@@ -45,6 +50,6 @@
 
 
   <div class="form-group">
-    <%= form.submit %>
+    <%= form.submit 'Add',  class: 'btn btn-primary' %>
   </div>
 <% end %>

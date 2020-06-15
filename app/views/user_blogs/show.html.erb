@@ -1,37 +1,51 @@
-<p id="notice"><%= notice %></p>
 <div class="panel panel-default">
   <div class="panel-body">
-<p>
-  <strong>User:</strong>
-  <%= @user_blog.user_id %>
-</p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @user_blog.name %>
-</p>
-    <h2>Posts:</h2>
+
+    <div class="page-header">
+      <h1> <%= @user_blog.name %> <small>created by <%=@user_blog.user.name %></small></h1>
+    </div>
+
+    <% if @user_blog.user == current_user %>
+      <%= link_to 'Change blog name', edit_user_blog_path(@user_blog),  class: 'btn btn-primary'%>
+      <%= link_to 'New post', new_user_blog_post_path(@user_blog),  class: 'btn btn-primary'%>
+    <%end %>
+
+
+    <div class="container">
+
+      <div id="posts" class="transitions-enabled">
     <% @user_blog.posts.each do |post| %>
-      <%= post.user_blog_id %>
-      <%= image_tag post.image.url(:medium) %>
-      <%= post.title %>
-      <%= post.content %>
-      <%= post.updated_at %>
-      <td><%= link_to 'Show', post %></td>
+          <div class="box">
+            <div class="panel panel-default">
+              <div class="panel-heading"><center><h3><%= link_to post.title, user_blog_post_path(user_blog_id: post.user_blog_id, id: post.id) %></h3></center></div> <br/>
+              <div class="panel-body">
+                <h5><%= post.created_at %> <br/></h5>
+                <%= image_tag post.image.url(:thumb),:style => "border: 2px solid #2F3538" %> <br/>
+              </div>
+            </div>
+
+
+
       <% if @user_blog.user == current_user %>
-      <td><%= link_to 'Edit', edit_post_path(post) %></td>
-      <td><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            <div class="panel-footer">
+              <div class="btn-group" role="group" aria-label="...">
+                <%= link_to 'Edit', edit_user_blog_post_path(user_blog_id: post.user_blog_id, id: post.id), class: 'btn btn-primary' %>
+                <%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' },  class: 'btn btn-primary' %>
+              </div>
+
+            </div>
         <%end %>
+          </div>
     <% end %>
+      </div>
+    </div>
 
 
   </div>
   <div class="panel-footer">
-    <% if @user_blog.user == current_user %>
-      <%= link_to 'Edit', edit_user_blog_path(@user_blog) %>
-      <%= link_to 'New post', new_user_blog_post_path(@user_blog) %>
-    <%end %>
 
-    <%= link_to 'Back', user_blogs_path %>
+
+    <%= link_to 'Back', root_path,  class: 'btn btn-primary' %>
   </div>
 </div>

@@ -1,0 +1,33 @@
+<div class="panel panel-default">
+<div class="panel-heading">Blogs:</div>
+<div class="panel-body">
+
+  <% current_user.user_blogs.each do |user_blog| %>
+
+    <div class="panel panel-default">
+      <div class="panel-body">
+
+        <div class="page-header"><h3><%= link_to user_blog.name, user_blog_path(id: user_blog.id )%> <br/> <small> created by <%= user_blog.user.name %></small></h3></div>
+
+
+        <% if user_blog.user == current_user %>
+          <div class="btn-group" role="group" aria-label="...">
+             <%= link_to 'Edit', edit_user_blog_path(user_blog),  class: 'btn btn-primary' %>
+            <%= link_to 'Destroy', user_blog, method: :delete, data: { confirm: 'Are you sure?' },  class: 'btn btn-primary' %>
+          </div>
+
+
+        <% end %>
+      </div>
+    </div>
+
+  <% end %>
+
+
+  <br>
+
+</div>
+</div>
+
+<%= will_paginate @user_blogs %>
+

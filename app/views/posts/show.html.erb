@@ -1,47 +1,62 @@
-<p id="notice"><%= notice %></p>
-<div class="panel panel-default">
-  <div class="panel-body">
-<p>
-  <strong>User blog:</strong>
-  <%= @post.user_blog_id %>
 
-  <%= image_tag @post.image.url(:medium) %><br/>
+    <div class="row">
 
-
-
-  <strong>Title:</strong>
-  <%= @post.title %>
+        <div class="thumbnail">
+          <br/>
+          <%= image_tag @post.image.url(:medium), :style => "border: 4px solid #2398AB"  %></center> <br/>
+          <div class="caption">
+            <div class="page-header">
+              <h1>  <%= @post.title %> <small> <%= @post.created_at %></small></h1>
+            </div>
 
 
 
-  <strong>Content:</strong>
-  <%= @post.content %>
+    <p><%= @post.content %></p>
+            <% if user_signed_in? %>
+          <%= link_to "Add Comment", new_post_comment_path(post_id: @post.id ), class:"btn btn-info" %>
+              <%end %>
+            <% if @post.user_blog.user == current_user %>
+
+
+                  <%= link_to 'Edit', edit_user_blog_post_path(user_blog_id: @post.user_blog_id, id: @post.id), class:"btn btn-primary" %>
+                  <%= link_to 'Destroy', user_blog_post_path(user_blog_id: @post.user_blog_id, id: @post.id), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-primary" %>
+              
+
+
+            <%end %>
+            <%= link_to 'Back', user_blog_path(id:@post.user_blog_id), class: "btn btn-primary" %>
+          </div>
+
+        </div>
+
+    </div>
 
 
 
 
-</p>
 
     <h2>Comments:</h2>
     <% @post.comments.each do |comment| %>
-      <%= comment.post_id %>
-      <%= comment.title %>
-      <%= comment.content %>
-      <%= comment.updated_at %>
-      <td><%= link_to 'Show', comment %></td>
+      <div class="panel panel-default">
+        <div class="panel-heading"><h3>  <%= comment.user.name %> <small> <%= comment.created_at %></small></h3></div>
+        <div class="panel-body">
+          <h4><%= comment.title %> <br/>
+            <small><%= comment.content %></small></h4>
+
+
       <% if comment.user == current_user %>
-        <td><%= link_to 'Edit', edit_comment_path(comment) %></td>
-        <td><%= link_to 'Destroy', comment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            </div>
+            <div class="panel-footer">
+        <td><%= link_to 'Edit', edit_post_comment_path(id: comment.id, post_id: comment.post.id) %></td>
+        <td><%= link_to 'Destroy', post_comment_path(id: comment.id, post_id: comment.post.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       <%end %>
+
+        </div>
+      </div>
     <% end %>
 
   </div>
-    <div class="panel-footer">
 
-      <% if user_signed_in? %>
-        <%= link_to "Add Comment", new_post_comment_path(post_id: @post.id ) %>
-      <%end %>
 
-      <%= link_to 'Back', posts_path %>
-    </div>
-  </div>
+      <%= link_to 'Back', user_blog_path(id:@post.user_blog_id) %>
+

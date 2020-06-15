@@ -28,9 +28,12 @@
         <%if user_signed_in? %>
           <li> <%= link_to 'New Blog', new_user_blog_path %></li>
 
+          <li> <%= link_to 'Your blogs',  your_path %></li>
+
           <li> <%= link_to 'Edit profile', edit_user_registration_path %></li>
 
           <li> <%= link_to 'Sign out', destroy_user_session_path, method: :delete %></li>
+
 
 
 

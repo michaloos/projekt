@@ -1,0 +1,10 @@
+<%= form_for @post, controller: 'posts', action: 'access' do |f| %>
+
+  <%= f.hidden_field :id, value: "#{params[:id]}" %>
+
+  <%= f.label :password %>
+  <%= f.password_field :password %>
+
+  <%= f.submit "send" %>
+
+<% end %>

@@ -1,55 +1,57 @@
-<p id="notice"><%= notice %></p>
-
-
-
-
-  <div class="panel panel-default">
-    <div class="panel-heading">Search posts:</div>
+<div class="panel panel-default">
+  <div class="panel-heading">Search posts:</div>
+  <div class="panel-body">
   <%= form_tag(posts_path, method: "get") do %>
-      <div class="form-group">
-        <%=label_tag ("select post categories") %>
-        <%= select_tag "category_ids", options_from_collection_for_select(Category.all, :id, :name), multiple: true, class: "form-control" %>
-      </div>
+    <div class="form-group">
+      <%=label_tag ("select post categories") %>
+      <%= select_tag "category_ids", options_from_collection_for_select(Category.all, :id, :name), multiple: true, class: "form-control" %>
+    </div>
 
-      <div class="form-group">
-        <%= label_tag ("select post location") %>
-        <%= select_tag "location_id", options_from_collection_for_select(Location.all, :id, :city), multiple:true, class:"form-control"%>
-      </div>
+    <div class="form-group">
+      <%= label_tag ("select post location") %>
+      <%= select_tag "location_id", options_from_collection_for_select(Location.all, :id, :city), multiple:true, class:"form-control"%>
+    </div>
 
 
-      <%= submit_tag "Submit" %>
+    <%= submit_tag "Submit", class: 'btn btn-primary' %>
   <% end %>
   </div>
-
-  <div class="panel panel-default">
-    <div class="panel-heading">Posts:</div>
-<table class="table">
-  <thead>
-    <tr>
-      <th>User blog</th>
-      <th>Image</th>
-      <th>Title</th>
-      <th>Content</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @posts.each do |post| %>
-      <tr>
-        <td><%= post.user_blog_id %></td>
-        <td><%= image_tag post.image.url(:thumb) %></td>
-        <td><%= post.title %></td>
-        <td><%= post.content %></td>
-        <td><%= link_to 'Show', post %></td>
-        <td><%= link_to 'Edit', edit_post_path(post) %></td>
-        <td><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-  <div class="panel-footer"><%= link_to 'New post', new_post_path %> </div>
 </div>
+<div class="container">
+
+  <div id="posts" class="transitions-enabled">
+
+    <% @posts.each do |post| %>
+      <div class="box">
+        <div class="panel panel-default">
+          <div class="panel-heading"><center><h3><%= link_to post.title, user_blog_post_path(user_blog_id: post.user_blog_id, id: post.id) %></h3></center></div> <br/>
+          <div class="panel-body">
+            <h5><%= post.created_at %> <br/></h5>
+
+            <%= image_tag post.image.url(:thumb), :style => "border: 2px solid #2F3538"  %> <br/>
+            <h5> Created by <%= post.user_blog.user.name %></h5>
+          </div>
+
+            <div class="panel-footer">
+              <div class="btn-group" role="group" aria-label="...">
+                <% if post.user_blog.user == current_user %>
+
+                  <%= link_to 'Edit', edit_user_blog_post_path(user_blog_id: post.user_blog_id, id: post.id),  class: 'btn btn-primary' %>
+                  <%= link_to 'Destroy', user_blog_post_path(user_blog_id: post.user_blog_id, id: post.id), method: :delete, data: { confirm: 'Are you sure?' },  class: 'btn btn-primary' %>
+                <%end %>
+
+
+              <%= link_to 'Check blog', user_blog_path(id: post.user_blog_id),  class: 'btn btn-primary' %> <br/>
+              </div>
+            </div>
+
+        </div>
+
+      </div>
+    <% end %>
+
+
+  </div>
+</div>
+<%= will_paginate @posts %>
+

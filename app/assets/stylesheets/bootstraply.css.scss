@@ -1,8 +1,27 @@
 
 $navbar-default-bg: #AEE8E4;
-$navbar-height: 75px;
+$navbar-height: 40px;
 $navbar-default-color: #2398AB;
-
+$link-color: #2398AB;
+$navbar-default-brand-color: #2398AB;
+$brand-primary: #2398AB;
+$body-bg: #E4FFF9;
+$jumbotron-bg: #AEE8E4;
+$jumbotron-color: #2398AB;
+$panel-inner-border: #2398AB;
+$panel-default-border: #2398AB;
+$panel-footer-bg: #AEE8E4;
+$panel-default-heading-bg: #AEE8E4;
+$panel-bg:  #FFFFFF;
+$panel-default-text: #2398AB;
+$thumbnail-bg: #FFF;
+$thumbnail-border: #2398AB;
+$thumbnail-caption-color: #00848C;
+$text-color: #00848C;
+$list-group-border: #2398AB;
 
 @import "bootstrap-sprockets";
 @import "bootstrap";
+.center {
+  text-align: center;
+}

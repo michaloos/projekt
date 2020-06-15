@@ -6,18 +6,25 @@ class UserBlogsController < ApplicationController
   # GET /user_blogs
   # GET /user_blogs.json
   def index
-    @user_blogs = UserBlog.all
+    @user_blogs = UserBlog.all.order(created_at: :desc).paginate(:page => params[:page], :per_page => 3)
+  end
+
+  def your
+    @user_blogs = current_user.user_blogs.all.order(created_at: :desc).paginate(:page => params[:page], :per_page => 3)
   end
 
   # GET /user_blogs/1
   # GET /user_blogs/1.json
   def show
+    @user_blog = UserBlog.find(params[:id])
+    @user= @user_blog.user
   end
 
   # GET /user_blogs/new
   def new
     @user_blog = current_user.user_blogs.build
   end
+
 
   # GET /user_blogs/1/edit
   def edit
@@ -44,7 +51,7 @@ class UserBlogsController < ApplicationController
   def update
     respond_to do |format|
       if @user_blog.update(user_blog_params)
-        format.html { redirect_to @user_blog, notice: 'User blog was successfully updated.' }
+        format.html { redirect_to @user_blog, notice: 'Blog was successfully updated.' }
         format.json { render :show, status: :ok, location: @user_blog }
       else
         format.html { render :edit }
@@ -56,9 +63,18 @@ class UserBlogsController < ApplicationController
   # DELETE /user_blogs/1
   # DELETE /user_blogs/1.json
   def destroy
+    @user_blog = UserBlog.find(params[:id])
+    @post = @user_blog.posts.where(user_blog_id: @user_blog.id)
+    @post.each do |post|
+      @comment = post.comments.where(post_id: post.id)
+      @comment.each do |comment|
+        comment.destroy
+      end
+      post.destroy
+    end
     @user_blog.destroy
     respond_to do |format|
-      format.html { redirect_to user_blogs_url, notice: 'User blog was successfully destroyed.' }
+      format.html { redirect_to root_path, notice: 'Blog was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -76,6 +92,6 @@ class UserBlogsController < ApplicationController
 
   def correct_user
     @user_blog = current_user.user_blogs.find_by(id: params[:id])
-    redirect_to user_blogs_path, notice: "You don't have permission to edit this blog" if @user_blog.nil?
+    redirect_to root_path, notice: "You don't have permission to edit this blog" if @user_blog.nil?
   end
 end

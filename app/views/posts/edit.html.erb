@@ -6,6 +6,6 @@
 <%= render 'form', post: @post %>
 
   </div>
-  <div class="panel-footer"> <%= link_to 'Show', @post %> |
-    <%= link_to 'Back', posts_path %></div>
+  <div class="panel-footer"> <%= link_to 'Show', user_blog_post_path(user_blog_id: @post.user_blog_id, id: @post.id),  class: 'btn btn-primary' %>
+    <%= link_to 'Back', user_blog_post_path(user_blog_id: @post.user_blog_id, id: @post.id),  class: 'btn btn-primary' %></div>
 </div>
